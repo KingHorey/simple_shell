@@ -1,19 +1,19 @@
-#MSH - Mild shell
+# MSH - Mild shell
 A simple emulation of the linux shell
 
-##Table of Contents
+## Table of Contents
 * [General info] (#general-info)
 * [Documentation] (#documentation)
 * [Technology] (#technology)
 * [Collaborator] (#collaborator)
 
-##General info
+## General info
 msh (mild shell) - (made with C)is a simple implementation of the shell made as part of ALX's software engineering course.
 
-##Documentation
+## Documentation
 msh was made with the betty documentation style. More information here [Betty](https://github.com/holbertonschool/Betty/wiki)
 
-##Technology
+## Technology
 msh was created with:
 * C
 
