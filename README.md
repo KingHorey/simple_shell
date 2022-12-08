@@ -4,7 +4,7 @@ A simple emulation of the linux shell
 ## Table of Contents
 * [General info](#general-info)
 * [Documentation](#documentation)
-* [Technology] (#technology)
+* [Technology](#technology)
 * [Collaborator](#collaborator)
 
 ## General info
