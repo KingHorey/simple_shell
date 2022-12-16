@@ -1,58 +1,77 @@
 #include "main.h"
-#define ERR STDERR_FILENO
 
-int main(int __attribute__((unused)) argc, char __attribute((unused)) **argv)
+/**
+ * main - main function
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0
+ */
+int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 {
 	get_line();
 
 	return (0);
 }
 
-void get_line()
+/**
+* get_line - runs other neccesary functions
+* Description: This function runs all other functions that
+* is needed to leep the shell running
+*/
+void get_line(void)
 {
 	char *line;
-	char **args;
-	int status;
+	char **args, **env;
 
-	do
+	while (1)
 	{
-		printf("~$ ");
+		printf("msh-$: ");
 		line = read_line();
 		args = split_line(line);
-		/* status = execute_line(args) */
-		
+		env = environ(args)
+		exec_line(env);
+
 		free(line);
 		free(args);
-	} while(1);
+	} /* infinite loop */
 }
 
 /**
- * read_lines- reads line provided by the user into a buffer
- * 
+ * read_line- reads line provided by the user into a buffer
  * Return: buffer with provided string
  */
 
 char *read_line(void)
 {
 	char *line = NULL;
-	size_t bufsize = 0, characters; /* setting bufsize to Zero and line to NULL, make getline allocate the buffer for us */
+	size_t bufsize = 0, characters, num = -1; /** setting bufsize to Zero and line to NULL,
+					  *make getline allocate the buffer for us
+					  */
 
 	characters = getline(&line, &bufsize, stdin);
-	if(characters == -1)
+	if (characters == num)
 	{
-		printf("Failed to allocate memory");
-		exit(1);
+		if (feof(stdin))
+		{
+			printf("Exited");
+			exit(EXIT_SUCCESS);
+		} else
+		{
+			fprintf(stderr, "Failed to read");
+			exit(EXIT_FAILURE);
+		}
 	}
-	if (feof(stdin))
-	{
-		exit(EXIT_SUCCESS);
-	} else {
-		printf("Failed to read");
-		exit(EXIT_FAILURE);
-	}
-
-	return line;
+	return (line);
 }
+
+/**
+ * split_line - This function splits the text stored in
+ * the line memory allocation (using strtok)
+ * @word: memory allocated from read_line function that contains
+ * text passed in
+ *
+ * Return: token - has all the seprated text as different pointers
+ */
 
 char **split_line(char *word)
 {
@@ -60,9 +79,10 @@ char **split_line(char *word)
 	char *store; /* stores the token when strtok is called */
 
 	char **token = malloc(sizeof(char *) * SIZE);
+
 	if (!token)
 		fprintf(stderr, "Unable to allocate memory\n");
-	
+
 	store = strtok(word, DELIM);
 	while (store) /* runs the loop till word is NULL, 0 */
 	{
@@ -71,13 +91,12 @@ char **split_line(char *word)
 		{
 			counter += SIZE;
 			token = realloc(token, sizeof(char *) * counter);
-			if(!token)
+			if (!token)
 				fprintf(stderr, "Unable to reallocate memory\n");
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		store = strtok(NULL, DELIM);
 	}
 	token[position] = NULL;
 	return (token);
 }
-		
