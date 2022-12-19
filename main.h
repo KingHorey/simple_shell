@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 
 extern char **environ;
@@ -19,6 +20,8 @@ char *read_line();
 void get_line(void);
 void exec_line(char **);
 char **split_line(char *);
-char **environ(char **);
+char *path(void);
+int _strlen(char *);
+char **env(char**);
 
 #endif

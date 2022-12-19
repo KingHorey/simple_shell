@@ -21,19 +21,24 @@ int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 void get_line(void)
 {
 	char *line;
-	char **args, **env;
+	char **args, **envs;
 
-	while (1)
+	do
 	{
 		printf("msh-$: ");
 		line = read_line();
-		args = split_line(line);
-		env = environ(args)
-		exec_line(env);
+		if (*line == '\n')
+			continue;
+		else
+		{
+			args = split_line(line);
+			// envs = env(args);
+			exec_line(args);
+			free(line);
+			free(args);
 
-		free(line);
-		free(args);
-	} /* infinite loop */
+		}
+	} while(1); /* infinite loop */
 }
 
 /**
@@ -47,13 +52,11 @@ char *read_line(void)
 	size_t bufsize = 0, characters, num = -1; /** setting bufsize to Zero and line to NULL,
 					  *make getline allocate the buffer for us
 					  */
-
 	characters = getline(&line, &bufsize, stdin);
 	if (characters == num)
 	{
 		if (feof(stdin))
 		{
-			printf("Exited");
 			exit(EXIT_SUCCESS);
 		} else
 		{
@@ -61,6 +64,7 @@ char *read_line(void)
 			exit(EXIT_FAILURE);
 		}
 	}
+			
 	return (line);
 }
 
