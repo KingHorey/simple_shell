@@ -8,6 +8,8 @@
  */
 int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 {
+	printf("Welcome to the Mild shell, created by Oreoluwa and John Olere\n");
+	_puts("************************************************************\n");
 	get_line();
 
 	return (0);
@@ -20,24 +22,25 @@ int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 */
 void get_line(void)
 {
-	char *line;
+	char *line, *res;
 	char **args, **envs;
+	int i;
 
 	do
 	{
 		printf("msh-$: ");
 		line = read_line();
 		if (*line == '\n')
+		{
 			continue;
+		}
 		else
 		{
 			args = split_line(line);
-			// envs = env(args);
-			exec_line(args);
-			free(line);
-			free(args);
-
+			res = exec_line(args);
 		}
+		free(line);
+		free(args);
 	} while(1); /* infinite loop */
 }
 
