@@ -8,8 +8,6 @@
  */
 int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 {
-	printf("Welcome to the Mild shell, created by Oreoluwa and John Olere\n");
-	_puts("************************************************************\n");
 	get_line();
 
 	return (0);
