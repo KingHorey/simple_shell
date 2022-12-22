@@ -24,7 +24,8 @@ void get_line(void)
 	char **args;
 
 	do {
-		printf("msh-$: ");
+		_putchar('$');
+		_putchar(32);
 		line = read_line();
 		if (*line == '\n')
 		{
@@ -52,6 +53,7 @@ char *read_line(void)
 	characters = getline(&line, &bufsize, stdin);
 	if (characters == num)
 	{
+		free(line);
 		if (feof(stdin))
 		{
 			exit(EXIT_SUCCESS);
