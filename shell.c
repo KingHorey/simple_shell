@@ -22,9 +22,8 @@ int main(int __attribute__((unused)) argc, char __attribute((unused)) * argv[])
 */
 void get_line(void)
 {
-	char *line, *res;
-	char **args, **envs;
-	int i;
+	char *line;
+	char **args;
 
 	do {
 		printf("msh-$: ");
@@ -33,11 +32,8 @@ void get_line(void)
 		{
 			continue;
 		}
-		else
-		{
-			args = split_line(line);
-			res = exec_line(args);
-		}
+		args = split_line(line);
+		exec_line(args);
 		free(line);
 		free(args);
 	} while (1); /* infinite loop */

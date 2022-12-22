@@ -18,7 +18,7 @@
 extern char **environ;
 char *read_line();
 void get_line(void);
-char *exec_line(char **);
+void *exec_line(char **);
 char **split_line(char *);
 char *path(void);
 int _strlen(char *);

@@ -7,7 +7,9 @@
 
 char *path(void)
 {
-	for (int i = 0; environ[i] != NULL; i++)
+	int i;
+
+	for (i = 0; environ[i] != NULL; i++)
 	{
 		if (strncmp("PATH", environ[i], 4) == 0)
 		{
@@ -27,7 +29,9 @@ char **env(char **argmnt)
 {
 	struct stat buffer;
 	char *space, *token, **output, *home, home_dir[1000];
-	int directory, i, counter;
+	int i, counter;
+
+	space = path();
 
 	home = getcwd(home_dir, 1000);
 

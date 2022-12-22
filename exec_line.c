@@ -6,16 +6,14 @@
  * Return: processed command
  */
 
-char *exec_line(char **args)
+void *exec_line(char **args)
 {
-	char *path, *token, *command, *file_path;
-	char *home_token, home_dir[1000], *path_cpy;
+	char *path, *command;
 	struct stat buffer;
-	int i = 0;
+	int i;
 
 	command = args[0];
 	path = getenv("PATH");
-	home_token = getcwd(home_dir, 1000);
 
 	if (path)
 	{
@@ -47,7 +45,7 @@ char *exec_line(char **args)
 void *act(char **arg)
 {
 	int stat, status;
-	pid_t pid, wpid;
+	pid_t pid;
 
 	pid = fork();
 	if (!pid)
@@ -61,9 +59,10 @@ void *act(char **arg)
 	else
 	{
 		do {
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFSIGNALED(status) && !WIFEXITED(status));
 	}
+	return (NULL);
 }
 
 
@@ -75,10 +74,9 @@ void *act(char **arg)
 
 void *create_child(char **args)
 {
-	char *path, *token, *command, *file_path;
+	char *path, *token, *command;
 	char *home_token, home_dir[1000], *path_cpy;
 	struct stat buffer;
-	int i = 0;
 
 	command = args[0];
 	path = getenv("PATH");
@@ -102,5 +100,6 @@ void *create_child(char **args)
 		}
 		token = strtok(NULL, ":");
 	}
+	return (NULL);
 }
 
