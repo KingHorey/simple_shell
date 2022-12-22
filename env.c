@@ -1,27 +1,27 @@
 #include "main.h"
 
 /**
- * env - checks for command in environment
- * @space: pointer holding command
+ * path - checks for command in environment
  * Return: pointer with relative path added
  */
 
 char *path(void)
 {
-        for (int i = 0; environ[i] != NULL; i++)
-        {
-                if (strncmp("PATH", environ[i], 4) == 0) /* look for the
-                                                        * PATH pointer in environ */
-                                                        
-                {
-                        return (environ[i]);
-                }
-        }
-	exit (EXIT_FAILURE);
-
+	for (int i = 0; environ[i] != NULL; i++)
+	{
+		if (strncmp("PATH", environ[i], 4) == 0)
+		{
+			return (environ[i]);
+		}
+	}
+	exit(EXIT_FAILURE);
 }
 
-
+/**
+ * env - gets environmental path
+ * @argmnt: pointer pointer
+ * Return: array
+ */
 
 char **env(char **argmnt)
 {
@@ -30,16 +30,13 @@ char **env(char **argmnt)
 	int directory, i, counter;
 
 	home = getcwd(home_dir, 1000);
-	// space = path();
 
 	output = malloc(sizeof(char *) * 100);
-
 	if (!output)
 	{
 		perror("Failed to allocate memory");
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(space, ":");
 	i = 0;
 	while (token)
@@ -49,7 +46,6 @@ char **env(char **argmnt)
 		i++;
 	}
 	output[i] = '\0';
-
 	counter = 0;
 	while (output[counter])
 	{
@@ -66,6 +62,5 @@ char **env(char **argmnt)
 		counter++;
 	}
 	free(output);
-
 	return (argmnt);
 }

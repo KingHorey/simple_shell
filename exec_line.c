@@ -25,7 +25,7 @@ char *exec_line(char **args)
 				_puts(environ[i]);
 		}
 
-		if (_strcmp( args[0], "exit") == 0)
+		if (_strcmp(args[0], "exit") == 0)
 			_exit(i);
 
 		else if (stat(command, &buffer) == 0)
@@ -37,6 +37,12 @@ char *exec_line(char **args)
 	}
 	return (NULL);
 }
+
+/**
+ * act - creates a child process
+ * @arg: pointer pointer
+ * Return: NULL
+ */
 
 void *act(char **arg)
 {
@@ -59,6 +65,13 @@ void *act(char **arg)
 		} while (!WIFSIGNALED(status) && !WIFEXITED(status));
 	}
 }
+
+
+/**
+ * create_child - searche env
+ * @args: pointer pointer
+ * Return: Null
+ */
 
 void *create_child(char **args)
 {

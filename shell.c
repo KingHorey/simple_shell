@@ -26,8 +26,7 @@ void get_line(void)
 	char **args, **envs;
 	int i;
 
-	do
-	{
+	do {
 		printf("msh-$: ");
 		line = read_line();
 		if (*line == '\n')
@@ -41,7 +40,7 @@ void get_line(void)
 		}
 		free(line);
 		free(args);
-	} while(1); /* infinite loop */
+	} while (1); /* infinite loop */
 }
 
 /**
@@ -52,9 +51,10 @@ void get_line(void)
 char *read_line(void)
 {
 	char *line = NULL;
-	size_t bufsize = 0, characters, num = -1; /** setting bufsize to Zero and line to NULL,
-					  *make getline allocate the buffer for us
-					  */
+	size_t bufsize = 0, characters, num = -1; /** setting bufsize to Zero and line
+						    *to NULL makes getline allocate
+						    * the buffer for us
+						    */
 	characters = getline(&line, &bufsize, stdin);
 	if (characters == num)
 	{
@@ -67,7 +67,7 @@ char *read_line(void)
 			exit(EXIT_FAILURE);
 		}
 	}
-			
+
 	return (line);
 }
 

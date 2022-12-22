@@ -22,7 +22,7 @@ char *exec_line(char **);
 char **split_line(char *);
 char *path(void);
 int _strlen(char *);
-char **env(char**);
+char **env(char **);
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
