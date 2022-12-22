@@ -50,7 +50,7 @@ void *act(char **arg)
 	pid = fork();
 	if (!pid)
 	{
-		stat = execve(arg[0], arg, NULL);
+		stat = execve(arg[0], arg, environ);
 		if (stat == -1)
 			perror("failed");
 	}
