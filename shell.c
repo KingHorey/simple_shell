@@ -70,7 +70,6 @@ char *read_line(void)
  * the line memory allocation (using strtok)
  * @word: memory allocated from read_line function that contains
  * text passed in
- *
  * Return: token - has all the seprated text as different pointers
  */
 
