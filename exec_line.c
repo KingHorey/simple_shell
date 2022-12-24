@@ -24,7 +24,12 @@ void exec_line(char **args)
 		}
 
 		if (_strcmp(args[0], "exit") == 0)
+		{
+			for (i = 0; args[i] != NULL; i++)
+				free(args[i]);
+			free (args);
 			exit(exit_status);
+		}
 
 		else if (stat(command, &buffer) == 0)
 			act(args);
