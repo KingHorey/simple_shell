@@ -24,8 +24,8 @@ void get_line(void)
 	char **args;
 
 	do {
-		_putchar('$');
-		_putchar(32);
+		/* _putchar('$');
+		_putchar(32); */
 		line = read_line();
 		if (*line == '\n')
 		{
