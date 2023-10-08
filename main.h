@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 extern char **environ;
 char **split_commands(char *);
@@ -15,9 +16,11 @@ char *get_commands();
 char **check_tty();
 
 void execute(char **argv, char **);
-char *get_path(void);
-int path_check(char *);
-char **split_path(char *path);
+int env_count(char **envs);
+char **new_env_array(int count);
+
+char **split_path();
+int path_check(char *path);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int count_array(char **);
@@ -35,11 +38,14 @@ void display_aliases(void);
 void free_aliases(void);
 void add_to_history(const char *command);
 void display_history(void);
-void free_splits(char **splits);
+
 void handle_exit(void);
 void handle_cd(char **args);
 void handle_echo(char **args);
 void handle_help(void);
 void close_fd(int fd);
 
+/** memory allocation free handling */
+void clean_dpointer(char **dpointer);
+void free_splits(char **splits);
 #endif /* MAIN_H */

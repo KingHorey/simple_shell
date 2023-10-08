@@ -18,7 +18,6 @@ int main(int argc, char **argv, char **env)
 		(void) argv;
 
 		lineptr = NULL;
-
 		if (isatty(STDIN_FILENO))
 		{
 			printf("($) ");

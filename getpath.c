@@ -17,17 +17,17 @@ char *get_path() /*expect funct to get input and return path*/
 
 /**
  * split_path - splits path string gotten from get_path
- * @path: path string gotten from get_path
  *
  * Return: array of pointers to different paths
  */
 
 
-char **split_path(char *path)
+char **split_path()
 {
-	char *tokens, **path_array, *token_copy;
-	int count, paths_check, j = 0, i = 0;
+	char *tokens, **path_array, *token_copy, *path;
+	int count, path_checks, j = 0, i = 0;
 
+	path = get_path();
 	count = word_count(path, ":");
 	token_copy = strdup(path);
 	path_array = (char **)malloc((count + 1) * sizeof(char *));
@@ -39,8 +39,8 @@ char **split_path(char *path)
 	tokens = strtok(token_copy, ":");
 	while (tokens != NULL)
 	{
-		paths_check = path_check(tokens);
-		if (paths_check)
+		path_checks = path_check(tokens); /* checks if it a valid path */
+		if (path_checks)
 		{
 			path_array[i] = malloc((_strlen(tokens) + 1) * sizeof(char));
 			if (!path_array[i])

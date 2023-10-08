@@ -10,21 +10,20 @@
 void execute(char **argv, char **env)
 {
 	pid_t child_pid;
-	int check;
+	int check, check_child;
 
 	check = check_command(argv);
 	if (check == 1)
 		return;
 	child_pid = fork();
 	if (child_pid == 0)
-	{
-		check = execve(argv[0], argv, env);
-		if (check == -1)
-			puts("No such file or directory");
-	}
+		check_child = execve(argv[0], argv, env);
+	if (check_child == -1)
+		puts("No such file or directory");
 	cleanup(argv);
 	wait(&child_pid);
 }
+
 
 /**
  * count_array - coutns the number of words are
