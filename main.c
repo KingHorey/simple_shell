@@ -18,11 +18,13 @@ int main(int argc, char **argv, char **env)
 		(void) argc;
 		(void) argv;
 
+		env = environ;
+
 		if (isatty(STDIN_FILENO))
 		{
 			printf("($) "), count = getline(&lineptr, &n, stdin);
 			if (count == output_check)
-				free(lineptr), exit(0);
+				free(lineptr), free(splits), n = 0, exit(0);
 			splits = split_commands(lineptr), free(lineptr), execute(splits, env);
 		}
 		else

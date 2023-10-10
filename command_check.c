@@ -7,15 +7,15 @@
  * Return: 1 if successful
  */
 
-int check_command(char **args)
+int  check_command(char **args, char **env)
 {
 	int i = 0;
 
 	if (strcmp(args[0], "env") == 0)
 	{
-		while (environ[i])
+		while (env[i])
 		{
-			printf("%s\n", environ[i]);
+			printf("%s\n", env[i]);
 			i++;
 		}
 		return (1);

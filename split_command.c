@@ -17,11 +17,13 @@ char **split_commands(char *string)
 	delim = " \t\n";
 	new_tokens = remove_new_line(string);
 	len = word_count(new_tokens, delim); /* gets the length of the string */
+	printf("%d\n", len);
 	words_ptr = malloc((len + 1) * sizeof(char *));
 	tokens = strtok(new_tokens, delim);
 	while (tokens != NULL)
 	{
-		words_ptr[i] = malloc(sizeof(char) * (_strlen(tokens) + 1));
+		int data = _strlen(tokens) + 1;
+		words_ptr[i] = malloc(data);
 		if (words_ptr[i] == NULL)
 		{
 			perror("malloc");
@@ -32,15 +34,12 @@ char **split_commands(char *string)
 			}
 			free(words_ptr);
 		}
-		if (words_ptr[i])
-		{
-			strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
-			tokens = strtok(NULL, delim);
-		}
+		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
+		tokens = strtok(NULL, delim);
 		i++;
 	}
 	words_ptr[i] = NULL;
-	free(new_tokens);
+	free(new_tokens), free(tokens);
 	return (words_ptr);
 }
 
