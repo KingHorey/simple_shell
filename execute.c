@@ -12,20 +12,15 @@ void execute(char **argv, char **env)
 	pid_t child_pid;
 	int check, check_child = 0;
 
-	if (argv[1])
-		puts("No such file or directory");
-	else
-	{
-		check = check_command(argv);
-		if (check == 1)
-			return;
+	check = check_command(argv);
+	if (check == 1)
+		return;
 
-		child_pid = fork();
-		if (child_pid == 0)
-			check_child = execve(argv[0], argv, env);
-		if (check_child == -1)
-			puts("No such file or directory");
-	}
+	child_pid = fork();
+	if (child_pid == 0)
+		check_child = execve(argv[0], argv, env);
+	if (check_child == -1)
+		puts("No such file or directory");
 	cleanup(argv);
 	wait(&child_pid);
 }
