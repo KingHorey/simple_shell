@@ -10,41 +10,27 @@
 
 int main(int argc, char **argv, char **env)
 {
+	/* gets the env path */
 	for (;;)
 	{
-		char *lineptr, **splits, *new_line;
-		size_t n = 0, output_check = -1, count;
+		char *lineptr = NULL, **splits;
+		size_t n = 0, output_check = -1, count = 0;
 		(void) argc;
 		(void) argv;
 
-		lineptr = NULL;
 		if (isatty(STDIN_FILENO))
 		{
-			printf("($) ");
-			count = getline(&lineptr, &n, stdin);
+			printf("($) "), count = getline(&lineptr, &n, stdin);
 			if (count == output_check)
-			{
-				printf("\n");
-				free(lineptr);
-				exit(0);
-			}
-			new_line = remove_new_line(lineptr);
-			free(lineptr);
-			splits = split_commands(new_line); /* invalid write of size 1*/
-			execute(splits, env);
+				free(lineptr), exit(0);
+			splits = split_commands(lineptr), free(lineptr), execute(splits, env);
 		}
 		else
 		{
 			count = getline(&lineptr, &n, stdin);
 			if (count == output_check)
-			{
-				free(lineptr);
-				exit(0);
-			}
-			new_line = remove_new_line(lineptr);
-			free(lineptr);
-			splits = split_commands(new_line);
-			execute(splits, env);
+				free(lineptr), exit(0);
+			splits = split_commands(lineptr), free(lineptr), execute(splits, env);
 		}
 	}
 	return (0);
