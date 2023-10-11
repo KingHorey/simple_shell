@@ -9,10 +9,6 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <errno.h>
-#include <limits.h>
-
-
 
 extern char **environ;
 char **split_commands(char *string);
@@ -30,7 +26,7 @@ char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int count_array(char **);
 char *remove_new_line(char *);
-int check_command(char **args, char **env);
+int check_command(char **args);
 int word_count(char *arg, char*);
 void cleanup(char **argv);
 void free_words_ptr(char **words_ptr, int count);
