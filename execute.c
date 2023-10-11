@@ -7,29 +7,37 @@
  * @env: environmental variable
  */
 
-void execute(char **argv, char **env)
+int execute(char **argv, char **env)
 {
 	pid_t child_pid;
-	int check, check_child = 0, result, i = 0, len_cmd = 0;
-	char **path_ptr, *new_pth, *cmd_path;
+	int check, check_child = 0, result, i = 0, cmdstatus = 0;
+	char **path_ptr, *new_pth, *cmdplate;
+	char *done = "exit"; 
 	struct stat buf;
 
-	path_ptr = split_path(), check = check_command(argv, env);
+	path_ptr = split_path();
+
+	check = check_command(argv, env);
+	if (strcmp(done, argv[0]) == 0)
+		cmdstatus = 1;
 	if (check == 1)
-		return;
-	if (strstr(argv[0], "/"))
+		return 0;
+	if (strstr(argv[0], "/")) 
 		result = stat(argv[0], &buf);
 	else
 	{
 		while (path_ptr[i])
 		{
-			len_cmd = strlen(argv[0]) + 2;
+			int len_cmd = strlen(argv[0]) + 2;
 			new_pth = malloc((strlen(path_ptr[i]) + len_cmd));
-			strcpy(new_pth, path_ptr[i]), strcat(new_pth, "/");
-			strcat(new_pth, argv[0]), result = stat(new_pth, &buf);
+			strcpy(new_pth, path_ptr[i]);
+			strcat(new_pth, "/");
+			strcat(new_pth, argv[0]);
+			result = stat(new_pth, &buf);
 			if (result == 0)
 			{
-				cmd_path = strdup(new_pth), free(new_pth);
+				cmdplate = strdup(new_pth);
+				free(new_pth);
 				break;
 			}
 			else
@@ -41,14 +49,21 @@ void execute(char **argv, char **env)
 	{
 		child_pid = fork();
 		if (child_pid == 0)
-			check_child = execve(cmd_path, argv, env);
+			check_child = execve(cmdplate, argv, env);
+			free(cmdplate);
 		if (check_child == -1)
 			puts("No such file or directory");
-		cleanup(argv), cleanup(path_ptr), free(cmd_path);
+/*		cleanup(argv),*/
+		cleanup(path_ptr);
 		wait(&child_pid);
 	}
 	else
-		cleanup(argv), cleanup(path_ptr), puts("No such file or directory");
+	{
+/*		cleanup(argv); */
+ 		cleanup(path_ptr);
+		puts("No such file or directory");
+	}
+	return cmdstatus;
 }
 
 
@@ -87,5 +102,4 @@ void cleanup(char **argv)
 		i++;
 	}
 	free(argv);
-
 }

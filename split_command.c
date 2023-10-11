@@ -17,12 +17,12 @@ char **split_commands(char *string)
 	delim = " \t\n";
 	new_tokens = remove_new_line(string);
 	len = word_count(new_tokens, delim); /* gets the length of the string */
+	/*printf("%d\n", len);*/
 	words_ptr = malloc((len + 1) * sizeof(char *));
 	tokens = strtok(new_tokens, delim);
 	while (tokens != NULL)
 	{
 		int data = _strlen(tokens) + 1;
-
 		words_ptr[i] = malloc(data);
 		if (words_ptr[i] == NULL)
 		{
@@ -42,7 +42,6 @@ char **split_commands(char *string)
 	free(new_tokens), free(tokens);
 	return (words_ptr);
 }
-
 
 /**
  * remove_new_line - removes the newline character that is added
