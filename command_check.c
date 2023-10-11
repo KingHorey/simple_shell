@@ -20,5 +20,10 @@ int check_command(char **args, char **env)
 		}
 		return (1);
 	}
+	else if (strcmp(args[0], "exit") == 0)
+	{
+		cleanup(args);
+		exit(0);
+	}
 	return (-1);
 }

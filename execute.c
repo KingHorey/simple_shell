@@ -14,7 +14,7 @@ void execute(char **argv, char **env)
 	char **path_ptr, *new_pth, *cmd_path;
 	struct stat buf;
 
-	path_ptr = split_path(), check = check_command(argv, env);
+	check = check_command(argv, env), path_ptr = split_path();
 	if (check == 1)
 		return;
 	if (strstr(argv[0], "/"))
