@@ -1,67 +1,84 @@
 #include "main.h"
 
 /**
- * split_commands - splits the commands into tokens
- *
- * @string: pointer to string to be split
- *
- * Return: a pointer to an array of strings
- */
-
+* split_commands - Splits the commands into tokens.
+* @string: Pointer to the string to be split.
+*
+* Return: A pointer to an array of strings.
+*/
 char **split_commands(char *string)
 {
 	int len;
-	char **words_ptr, *tokens, *delim, *new_tokens;
-	int i = 0, j = 0;
+	char **words_ptr;
+	char *new_tokens = remove_new_line(string);
 
-	delim = " \t\n";
-	new_tokens = remove_new_line(string);
-	len = word_count(new_tokens, delim); /* gets the length of the string */
-	printf("%d\n", len);
-	words_ptr = malloc((len + 1) * sizeof(char *));
-	tokens = strtok(new_tokens, delim);
-	while (tokens != NULL)
+	if (new_tokens == NULL)
+		return (NULL);
+	len = word_count(new_tokens, " \t\n");
+
+	if (len <= 0)
 	{
-		int data = _strlen(tokens) + 1;
-		words_ptr[i] = malloc(data);
+		free(new_tokens);
+		return (NULL);
+	}
+	words_ptr = allocate_and_copy_tokens(new_tokens, len);
+
+	if (words_ptr == NULL)
+	{
+		free(new_tokens);
+		return (NULL);
+	}
+	free(new_tokens);
+return (words_ptr);
+}
+
+/**
+* allocate_and_copy_tokens - Allocates memory for tokens and copies them.
+* @new_tokens: String with tokens to split.
+* @len: Number of tokens.
+*
+* Return: A pointer to an array of strings.
+*/
+char **allocate_and_copy_tokens(char *new_tokens, int len)
+{
+	char **words_ptr = malloc((len + 1) * sizeof(char *));
+	char *token;
+	int i = 0;
+
+	if (words_ptr == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	token = strtok(new_tokens, " \t\n");
+	while (token != NULL)
+	{
+		words_ptr[i] = strdup(token);
 		if (words_ptr[i] == NULL)
 		{
 			perror("malloc");
-			while (j < i)
-			{
-				free(words_ptr[j]);
-				j++;
-			}
-			free(words_ptr);
+			free_words_ptr(words_ptr, i);
+			return (NULL);
 		}
-		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
-		tokens = strtok(NULL, delim);
+		token = strtok(NULL, " \t\n");
 		i++;
 	}
 	words_ptr[i] = NULL;
-	free(new_tokens), free(tokens);
 	return (words_ptr);
 }
 
 /**
- * remove_new_line - removes the newline character that is added
- * automatically when getline is used t read data
- * @word: word read by getline
- * Return: Stripped down word
- */
-
-char *remove_new_line(char *word)
+* free_words_ptr - Frees the memory allocated for words_ptr.
+* @words_ptr: Array of strings.
+* @count: Number of strings in the array.
+*/
+void free_words_ptr(char **words_ptr, int count)
 {
-	int i = 0;
-	char *word_copy;
+	int i;
 
-	word_copy = strdup(word);
-
-	for (i = 0; i <= _strlen(word_copy); i++)
+	for (i = 0; i < count; i++)
 	{
-		if (word_copy[i] == '\n')
-			word_copy[i] = '\0';
-		word_copy[i] = word[i];
+		free(words_ptr[i]);
 	}
-	return (word_copy);
+	free(words_ptr);
 }

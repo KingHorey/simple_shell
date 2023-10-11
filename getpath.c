@@ -50,6 +50,7 @@ char **split_path()
 					free(path_array[j]);
 					j++;
 				}
+				free(path_array[i]);
 				free(path_array);
 				break;
 			}

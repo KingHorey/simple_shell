@@ -2,7 +2,7 @@
 
 /**
  * check_command - check the command is a built-in command
- *
+ * @env: environmental variable
  * @args: array of pointers
  * Return: 1 if successful
  */

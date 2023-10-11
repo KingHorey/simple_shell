@@ -1,0 +1,56 @@
+#include "main.h"
+
+/**
+ * split_commands - splits the commands into tokens
+ *
+ * @string: pointer to string to be split
+ *
+ * Return: a pointer to an array of strings
+ */
+
+char **split_commands(char *string)
+{
+	int len;
+	char **words_ptr, *tokens, *delim, *new_tokens;
+	int i = 0, j = 0;
+
+	delim = " \t\n";
+	new_tokens = remove_new_line(string);
+	len = word_count(new_tokens, delim); /* gets the length of the string */
+	printf("%d\n", len);
+	words_ptr = malloc((len + 1) * sizeof(char *));
+
+	if (words_ptr == NULL)
+	{
+		perror("malloc");
+		free(new_tokens);
+		return (NULL);
+	}
+	tokens = strtok(new_tokens, delim);
+
+	while (tokens != NULL)
+	{
+		int data = _strlen(tokens) + 1;
+
+		words_ptr[i] = malloc(data);
+
+		if (words_ptr[i] == NULL)
+		{
+			perror("malloc");
+			while (j < i)
+			{
+				free(words_ptr[j]);
+				j++;
+			}
+			free(words_ptr);
+			free(new_tokens);
+			return (NULL);
+		}
+		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
+		tokens = strtok(NULL, delim);
+		i++;
+	}
+	words_ptr[i] = NULL;
+	free(new_tokens);
+	return (words_ptr);
+}

@@ -18,6 +18,7 @@ char *get_commands()
 	if (count == -1)
 	{
 		perror("getline");
+		free(lineptr);
 		return (NULL);
 
 	}
