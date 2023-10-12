@@ -1,6 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+typedef struct bin_status
+{
+	int status;
+	char *cmd_path;
+} retrn_node;
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -9,6 +16,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stddef.h>
 
 extern char **environ;
 char **split_commands(char *string);
@@ -33,7 +41,10 @@ void free_words_ptr(char **words_ptr, int count);
 
 void my_env(void);
 
-/** memory allocation free handling */
+/** cd builtin */
 void clean_dpointer(char **dpointer);
 void free_splits(char **splits);
+int change_dirs(char **);
+int go_to_home(char **arg);
+retrn_node *executable_check(char *path_ptr, char *);
 #endif /* MAIN_H */

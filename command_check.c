@@ -9,11 +9,11 @@
 
 int check_command(char **args, char **env)
 {
-	int i = 0;
+	int i = 0, cd_check;
 
 	if (strcmp(args[0], "env") == 0)
 	{
-		while (env)
+		while (env[i])
 		{
 			printf("%s\n", env[i]);
 			i++;
@@ -25,5 +25,12 @@ int check_command(char **args, char **env)
 		cleanup(args);
 		exit(0);
 	}
+	else if (strcmp(args[0], "cd") == 0)
+	{
+		cd_check = change_dirs(args);
+		if (cd_check == 1)
+			return (1);
+	}
 	return (-1);
 }
+

@@ -10,45 +10,45 @@
 void execute(char **argv, char **env)
 {
 	pid_t child_pid;
-	int check, check_child = 0, result, i = 0, len_cmd = 0;
-	char **path_ptr, *new_pth, *cmd_path;
+	int check, check_child = 0, i = 0, rest = 0;
+	char **path_ptr;
 	struct stat buf;
+	retrn_node *result = NULL;
 
-	check = check_command(argv, env), path_ptr = split_path();
+	check = check_command(argv, env);
 	if (check == 1)
 		return;
 	if (strstr(argv[0], "/"))
-		result = stat(argv[0], &buf);
+	{
+		result = malloc(sizeof(retrn_node));
+		result->status = stat(argv[0], &buf), result->cmd_path = strdup(argv[0]);
+	}
 	else
 	{
+		path_ptr = split_path();
 		while (path_ptr[i])
 		{
-			len_cmd = strlen(argv[0]) + 2;
-			new_pth = malloc((strlen(path_ptr[i]) + len_cmd));
-			strcpy(new_pth, path_ptr[i]), strcat(new_pth, "/");
-			strcat(new_pth, argv[0]), result = stat(new_pth, &buf);
-			if (result == 0)
+			result = executable_check(path_ptr[i], argv[0]);
+			if (result->status == 1)
 			{
-				cmd_path = strdup(new_pth), free(new_pth);
+				rest = 0;
 				break;
 			}
-			else
-				free(new_pth);
-			i++;
+			rest = 1, free(result), i++;
 		}
+		cleanup(path_ptr);
 	}
-	if (result == 0)
+	if (rest == 0)
 	{
 		child_pid = fork();
 		if (child_pid == 0)
-			check_child = execve(cmd_path, argv, env);
+			check_child = execve(result->cmd_path, argv, env);
 		if (check_child == -1)
 			puts("No such file or directory");
-		cleanup(argv), cleanup(path_ptr), free(cmd_path);
-		wait(&child_pid);
+		cleanup(argv), free(result->cmd_path), free(result), wait(&child_pid);
 	}
 	else
-		cleanup(argv), cleanup(path_ptr), puts("No such file or directory");
+		cleanup(argv), puts("No such file or directory");
 }
 
 
@@ -88,4 +88,48 @@ void cleanup(char **argv)
 	}
 	free(argv);
 
+}
+
+
+/**
+ * executable_check - checks using stat, if binary file is present
+ *
+ * @path_ptr: array of paths
+ * @argv: command passed
+ * Return: struct
+ */
+
+retrn_node *executable_check(char *path_ptr, char *argv)
+{
+	int len_cmd = 0, result;
+	char *new_pth;
+	struct stat buf;
+	retrn_node *retrn_value;
+
+	retrn_value = malloc(sizeof(retrn_node));
+	if (!retrn_value)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	len_cmd = strlen(argv) + 2;
+	new_pth = malloc((strlen(path_ptr) + len_cmd));
+	strcpy(new_pth, path_ptr);
+	strcat(new_pth, "/");
+	strcat(new_pth, argv);
+	result = stat(new_pth, &buf);
+	if (result == 0)
+	{
+		retrn_value->status = 1;
+		retrn_value->cmd_path = strdup(new_pth);
+		free(new_pth);
+		return (retrn_value);
+	}
+	else
+	{
+		retrn_value->status = 0;
+		retrn_value->cmd_path = NULL;
+		free(new_pth);
+	}
+	return (retrn_value);
 }
