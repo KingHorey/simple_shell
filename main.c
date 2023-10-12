@@ -10,6 +10,10 @@
 int main(int argc, char **argv, char **env)
 {
 	/* gets the env path */
+	char current_dir[400];
+
+	env = environ;
+	setenv("OLDPWD", getcwd(current_dir, sizeof(current_dir)), 1);
 	for (;;)
 	{
 		char *lineptr = NULL, **splits;
@@ -17,13 +21,16 @@ int main(int argc, char **argv, char **env)
 		(void) argc;
 		(void) argv;
 
-		env = environ;
-
 		if (isatty(STDIN_FILENO))
 		{
 			printf("($) "), count = getline(&lineptr, &n, stdin);
 			if (count == output_check)
 				free(lineptr), free(splits), n = 0, exit(0);
+			else if (count == 1 && lineptr[0] == '\n')
+			{
+				free(lineptr), n = 0;
+				continue;
+			}
 		splits = split_commands(lineptr), free(lineptr), n = 0, execute(splits, env);
 		}
 		else
