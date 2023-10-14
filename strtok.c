@@ -11,8 +11,8 @@ char _strtok(char *str, const char *delim);
 {
 	char *token = NULL;
 	char *start;
-	
-	if(str)
+
+	if (str)
 		token = str;
 
 	if (!token)
@@ -24,7 +24,7 @@ char _strtok(char *str, const char *delim);
 		token++;
 
 	if (!*token)
-		return(NULL);
+		return (NULL);
 	/*mark start of token*/
 	while (*token && !strchr(delim, *token))
 		token++;
