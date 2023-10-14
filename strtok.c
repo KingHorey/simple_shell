@@ -7,7 +7,7 @@
  * @delim: specified delimeter
  * Return: pointer to next token, otherwise NULL
  */
-char _strtok(char *str, const char *delim);
+char _strtok(char *str, const char *delim)
 {
 	char *token = NULL;
 	char *start;
