@@ -7,7 +7,7 @@ typedef struct bin_status
 	char *cmd_path;
 } retrn_node;
 
-
+#define BUF_SIZE 1024
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
