@@ -23,7 +23,7 @@ char **split_commands(char *string);
 char **allocate_and_copy_tokens(char *new_tokens, int len);
 char *get_commands();
 char **check_tty();
-char _strtok(char *str, const char *delim);
+char *_strtok(char *str, const char *delim);
 void execute(char **argv, char **);
 int env_count(char **envs);
 char **new_env_array(int count);

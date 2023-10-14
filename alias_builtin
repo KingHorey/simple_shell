@@ -1,0 +1,68 @@
+include "main.h"
+
+/**
+ * add_alias - add or update alias
+ * @list: pointer to alias list
+ * @name: alias name
+ * @value: alias value
+ * Return: 1(success), 0(failure)
+ */
+int add_alias(alias_t **list, char *name, char *value)
+{
+	alias_t *present = *list;
+	alias_t *new alias;
+
+	while (present)
+	{
+		if (strcmp(present->name, name) == 0)
+		{
+			free(present->value);
+			present->value = strdup(value);
+			if (!present->value)
+			{
+				perror("malloc");
+				return (0);
+			}
+			return (1);
+		}
+		present = present->next
+	}
+	new-alias = malloc(sizeof(alias_t));
+	if (!new-alias)
+	{
+		perror("malloc");
+		return (0);
+	}
+	new alias->name = strdup(name);
+	if (!new-alias->name)
+	{
+		perror("malloc");
+		free(new-alias->name);
+		free(new-alias);
+		return (0);
+	}
+	new-alias->next = *list;
+	*list = new-alias;
+
+	return (1);
+}
+/**
+ * print_alias - print aliases from alias list
+ * @list: list of aliases
+ * @name: name of aliase to be printed
+ */
+void print_alias(alias_t *list, char *name)
+{
+	alias_t *present = list;
+
+	while (present)
+	{
+		if (name == NULL || (name && strcmp(present->name, name) == 0))
+			printf("alias %s = '%s'\n", present->name, present->value);
+		present = present->next;
+	}
+}
+
+/**
+ * alias_builtin - 
+ * int alias_builtin
