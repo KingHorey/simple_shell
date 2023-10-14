@@ -9,7 +9,7 @@
  */
 char *_strtok(char *str, const char *delim)
 {
-	char *token = NULL;
+	static char *token;
 	char *start;
 
 	if (str)
@@ -18,19 +18,20 @@ char *_strtok(char *str, const char *delim)
 	if (!token)
 		return (NULL);
 	/*find start of next token*/
-	start = token;
 
 	while (*token && strchr(delim, *token))
 		token++;
 
-	if (!*token)
+	if (*token == '\0')
 		return (NULL);
 	/*mark start of token*/
+	start = token;
+/*find the end token*/
+
 	while (*token && !strchr(delim, *token))
 		token++;
 
-	/*null-terminate the token*/
-	if (*token)
+	if (*token != '\0')
 	{
 		*token = '\0';
 		token++;
