@@ -1,4 +1,8 @@
-#include "main.h"
+// #include "main.h"
+
+#include <stdio.h>
+#include <string.h>
+
 
 /**
  * _strtok - tokenize a string into smaller parts based on specific
@@ -7,7 +11,7 @@
  * @delim: specified delimeter
  * Return: pointer to next token, otherwise NULL
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *str, const char delim)
 {
 	static char *token;
 	char *start;
@@ -17,18 +21,19 @@ char *_strtok(char *str, const char *delim)
 
 	if (!token)
 		return (NULL);
-	/*find start of next token*/
 
-	while (*token && strchr(delim, *token))
+	while (*token && strchr(token, delim))
+	{	/*find start of next token*/
+		printf("First Loop: %s\n", token);
 		token++;
-
+	}
 	if (*token == '\0')
 		return (NULL);
-	/*mark start of token*/
-	start = token;
-/*find the end token*/
 
-	while (*token && !strchr(delim, *token))
+	start = token;
+	printf("%s\n", token);
+
+	while (*token && !strchr(token, delim))
 		token++;
 
 	if (*token != '\0')
@@ -37,4 +42,15 @@ char *_strtok(char *str, const char *delim)
 		token++;
 	}
 	return (start);
+}
+
+int main(void)
+{
+	char name[] = "Horey is my name";
+	const char c = ' ';
+	char *data = _strtok(name, c);
+	printf("%s\n", data);
+
+
+	return (0);
 }
