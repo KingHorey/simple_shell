@@ -11,19 +11,24 @@
 char **split_commands(char *string)
 {
 	int len;
-	char **words_ptr, *tokens, *delim, *new_tokens;
+	char **words_ptr, *words, *tokens, *delim;
 	int i = 0, j = 0;
 
 	delim = " \t\n";
-	new_tokens = remove_new_line(string);
-	len = word_count(new_tokens, delim); /* gets the length of the string */
+	len = word_count(string, delim); /* gets the length of the string */
 	words_ptr = malloc((len + 1) * sizeof(char *));
-	tokens = strtok(new_tokens, delim);
+	if (!words_ptr)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	words = strdup(string);
+	tokens = split_token(words, delim);
 	while (tokens != NULL)
 	{
-		int data = _strlen(tokens) + 1;
+		char *new_tokens = remove_new_line(tokens);
 
-		words_ptr[i] = malloc(data);
+		words_ptr[i] = malloc(sizeof(char) * (_strlen(new_tokens) + 1));
 		if (words_ptr[i] == NULL)
 		{
 			perror("malloc");
@@ -34,15 +39,18 @@ char **split_commands(char *string)
 			}
 			free(words_ptr);
 		}
-		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
-		tokens = strtok(NULL, delim);
+		if (words_ptr[i])
+		{
+			strcpy(words_ptr[i], new_tokens); /* invalid write size of 1 */
+			tokens = split_token(NULL, delim);
+		}
 		i++;
+		free(new_tokens);
 	}
 	words_ptr[i] = NULL;
-	free(new_tokens), free(tokens);
+	free(words);
 	return (words_ptr);
 }
-
 
 /**
  * remove_new_line - removes the newline character that is added

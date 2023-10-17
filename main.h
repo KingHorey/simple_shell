@@ -23,7 +23,7 @@ char **split_commands(char *string);
 char **allocate_and_copy_tokens(char *new_tokens, int len);
 char *get_commands();
 char **check_tty();
-
+char *_split_token(char *str, const char *delim);
 void execute(char **argv, char **);
 int env_count(char **envs);
 char **new_env_array(int count);
@@ -48,4 +48,5 @@ int change_dirs(char **);
 int go_to_home(char **arg);
 retrn_node *executable_check(char *path_ptr, char *);
 int prev_dirs();
+char *split_token(char *, char *);
 #endif /* MAIN_H */

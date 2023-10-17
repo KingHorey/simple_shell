@@ -36,7 +36,7 @@ char **split_path()
 		perror("malloc");
 		return (NULL);
 	}
-	tokens = strtok(token_copy, ":");
+	tokens = split_token(token_copy, ":");
 	while (tokens != NULL)
 	{
 		path_checks = path_check(tokens); /* checks if it a valid path */
@@ -57,7 +57,7 @@ char **split_path()
 			_strcpy(path_array[i], tokens);
 			i++;
 		}
-		tokens = strtok(NULL, ":");
+		tokens = split_token(NULL, ":");
 	}
 	free(token_copy);
 	path_array[i] = NULL;
@@ -67,7 +67,7 @@ char **split_path()
 
 /**
  * path_check - checks the existence of a path using stat
- * @path: path gotten from the use of strtok in split_path
+ * @path: path gotten from the use of split_token in split_path
  * Return: 1 on success, 0 on failure
  */
 

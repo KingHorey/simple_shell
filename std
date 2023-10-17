@@ -5,13 +5,13 @@
 
 
 /**
- * _split_token - tokenize a string into smaller parts based on specific
+ * _strtok - tokenize a string into smaller parts based on specific
  * delimeter character
  * @str: string to be splited
  * @delim: specified delimeter
  * Return: pointer to next token, otherwise NULL
  */
-char *_split_token(char *str, const char delim)
+char *_strtok(char *str, const char delim)
 {
 	static char *token;
 	char *start;
@@ -48,7 +48,7 @@ int main(void)
 {
 	char name[] = "Horey is my name";
 	const char c = ' ';
-	char *data = _split_token(name, c);
+	char *data = _strtok(name, c);
 	printf("%s\n", data);
 
 
