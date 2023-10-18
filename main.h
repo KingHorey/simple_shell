@@ -47,6 +47,6 @@ void free_splits(char **splits);
 int change_dirs(char **);
 int go_to_home(char **arg);
 retrn_node *executable_check(char *path_ptr, char *);
-int prev_dirs();
+int prev_dirs(void);
 char *split_token(char *, char *);
 #endif /* MAIN_H */

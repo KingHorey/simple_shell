@@ -17,16 +17,18 @@ char *split_token(char *token, char *delim)
 
 	if (token)
 	new_token = token, tok = token;
-
 	if (!delim)
-	return (NULL);
+		return (NULL);
 	else if (position == 0 && new_token == NULL)
-	return (NULL);
+	{
+		return (NULL);
+	}
 	else
-	tok = new_token;
-
+	{
+		tok = new_token;
+	}
 	if (!new_token)
-	return (NULL);
+		return (NULL);
 
 	while (tok && (new_token = strpbrk(tok, delim)))
 	{
