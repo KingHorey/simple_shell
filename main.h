@@ -49,13 +49,15 @@ void cleanup(char **argv);
 void free_words_ptr(char **words_ptr, int count);
 
 void my_env(void);
+void input_loop(char **env);
 
 /** cd builtin */
 void clean_dpointer(char **dpointer);
 void free_splits(char **splits);
 int change_dirs(char **);
 int go_to_home(char **arg);
-retrn_node *executable_check(char *path_ptr, char *);
+retrn_node *check_executable(char *path_ptr, char *);
+retrn_node *find_executable(char *filename);
 int prev_dirs(void);
 char *split_token(char *, char *);
 #endif /* MAIN_H */

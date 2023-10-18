@@ -1,82 +1,118 @@
 #include "main.h"
 
 /**
- * execute - execute the command
+ * execute - Execute the command.
  *
- * @argv: args to be carried out
- * @env: environmental variable
+ * @argv: Args to be carried out.
+ * @env: Environmental variable.
  */
-
 void execute(char **argv, char **env)
 {
-	pid_t child_pid;
-	int check, check_child = 0, i = 0, rest = 0;
-	char **path_ptr;
-	struct stat buf;
+	int check, exec_check;
 	retrn_node *result = NULL;
+	pid_t child_pid;
 
 	check = check_command(argv, env);
 	if (check == 1)
 		return;
-	if (strstr(argv[0], "/"))
+
+	result = find_executable(argv[0]);
+	if (result == NULL)
 	{
-		result = malloc(sizeof(retrn_node));
-		result->status = stat(argv[0], &buf), result->cmd_path = strdup(argv[0]);
+		cleanup(argv);
+		puts("No such file or directory");
+		return;
 	}
-	else
+
+	child_pid = fork();
+	if (child_pid == 0)
 	{
-		path_ptr = split_path();
-		while (path_ptr[i])
-		{
-			result = executable_check(path_ptr[i], argv[0]);
-			if (result->status == 1)
-			{
-				rest = 0;
-				break;
-			}
-			rest = 1, free(result), i++;
-		}
-		cleanup(path_ptr);
-	}
-	if (rest == 0)
-	{
-		child_pid = fork();
-		if (child_pid == 0)
-			check_child = execve(result->cmd_path, argv, env);
-		if (check_child == -1)
+		exec_check = execve(result->cmd_path, argv, env);
+		if (exec_check == -1)
 			puts("No such file or directory");
-		cleanup(argv), free(result->cmd_path), free(result), wait(&child_pid);
+		_exit(EXIT_FAILURE);
 	}
-	else
-		cleanup(argv), puts("No such file or directory");
+
+	cleanup(argv);
+	free(result->cmd_path);
+	free(result);
+	wait(&child_pid);
 }
 
-
-
 /**
- * count_array - coutns the number of words are
- * in an array of pointers
- * @cmd: array of pointers
- * Return: number of arrays
+ * find_executable - Find an executable file in PATH.
+ *
+ * @filename: The file to search for.
+ * Return: A retrn_node struct containing the status and the path
+ * to the executable.
  */
-
-int count_array(char **cmd)
+retrn_node *find_executable(char *filename)
 {
+	char **path_ptr = split_path();
+	retrn_node *result = NULL;
 	int i = 0;
 
-	while (cmd[i] != NULL)
+	while (path_ptr[i])
 	{
+		result = check_executable(path_ptr[i], filename);
+		if (result->status == 1)
+		{
+			cleanup(path_ptr);
+			return (result);
+		}
 		i++;
+		free(result);
 	}
-	return (i);
+	cleanup(path_ptr);
+	return (NULL);
 }
 
 /**
- * cleanup - cleans up memory for array of pointers
- * @argv: array of pointers that is to be cleared
- * Return: NULL
+ * check_executable - Check if a file is executable.
+ *
+ * @dir: Directory path.
+ * @filename: The file to check.
+ * Return: A retrn_node struct containing the status and
+ * the path to the executable.
  */
+retrn_node *check_executable(char *dir, char *filename)
+{
+	int len_cmd = strlen(filename) + 2, result;
+	char *new_path = malloc(strlen(dir) + len_cmd);
+	retrn_node *retrn_value = malloc(sizeof(retrn_node));
 
+	if (!new_path || !retrn_value)
+	{
+		perror("malloc");
+		free(new_path);
+		free(retrn_value);
+		return (NULL);
+	}
+
+	strcpy(new_path, dir);
+	strcat(new_path, "/");
+	strcat(new_path, filename);
+
+	result = access(new_path, X_OK);
+	if (result == 0)
+	{
+		retrn_value->status = 1;
+		retrn_value->cmd_path = new_path;
+	}
+	else
+	{
+		retrn_value->status = 0;
+		retrn_value->cmd_path = NULL;
+		free(new_path);
+	}
+
+return (retrn_value);
+}
+
+/**
+ * cleanup - Clean up memory for an array of pointers.
+ * @argv: Array of pointers to be cleared.
+ */
 void cleanup(char **argv)
 {
 	int i = 0;
@@ -87,49 +123,4 @@ void cleanup(char **argv)
 		i++;
 	}
 	free(argv);
-
-}
-
-
-/**
- * executable_check - checks using stat, if binary file is present
- *
- * @path_ptr: array of paths
- * @argv: command passed
- * Return: struct
- */
-
-retrn_node *executable_check(char *path_ptr, char *argv)
-{
-	int len_cmd = 0, result;
-	char *new_pth;
-	struct stat buf;
-	retrn_node *retrn_value;
-
-	retrn_value = malloc(sizeof(retrn_node));
-	if (!retrn_value)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	len_cmd = strlen(argv) + 2;
-	new_pth = malloc((strlen(path_ptr) + len_cmd));
-	strcpy(new_pth, path_ptr);
-	strcat(new_pth, "/");
-	strcat(new_pth, argv);
-	result = stat(new_pth, &buf);
-	if (result == 0)
-	{
-		retrn_value->status = 1;
-		retrn_value->cmd_path = strdup(new_pth);
-		free(new_pth);
-		return (retrn_value);
-	}
-	else
-	{
-		retrn_value->status = 0;
-		retrn_value->cmd_path = NULL;
-		free(new_pth);
-	}
-	return (retrn_value);
 }
