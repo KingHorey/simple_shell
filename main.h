@@ -1,6 +1,14 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+/**
+ * struct bin_status - checks the existence of a file
+ * and returns a status
+ *
+ * @status: returns 1 if file is found r 0 if not
+ * @cmd_path: the path for each found command
+ */
+
 typedef struct bin_status
 {
 	int status;
