@@ -12,19 +12,22 @@ void execute(char **argv, char **env)
 	retrn_node *result = NULL;
 	pid_t child_pid;
 
-	check = check_command(argv, env);
-	if (check == 1)
-		return;
-
-	result = find_executable(argv[0]);
-	if (result == NULL)
+	if (strchr(argv[0], '/'))
+		result = check_slash_path(argv);
+	else
 	{
-		fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
-			argv[0], argv[1]);
-		cleanup(argv);
-		exit(2);
+		check = check_command(argv, env);
+		if (check == 1)
+			return;
+		result = find_executable(argv[0]);
+		if (result == NULL)
+		{
+			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+				argv[0], argv[1]);
+			cleanup(argv);
+			exit(2);
+		}
 	}
-
 	child_pid = fork();
 	if (child_pid == 0)
 	{
@@ -124,4 +127,43 @@ void cleanup(char **argv)
 		i++;
 	}
 	free(argv);
+}
+
+/**
+ * check_slash_path - check if the full path provided
+ * exists
+ * @argv: array of pointers
+ * 
+ * Return: struct
+ */
+
+retrn_node *check_slash_path(char **argv)
+{
+	int result;
+
+	retrn_node *retrn_value = NULL;
+	printf("Command is: %s\n", argv[0]);
+	result = access(argv[0], X_OK);
+
+	retrn_value = malloc(sizeof(retrn_node));
+	if (!retrn_value)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	if (result == 0)
+	{
+		retrn_value->status = 1;
+		retrn_value->cmd_path = argv[0];
+	}
+	else
+	{
+		fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+			argv[0], argv[1]);
+		cleanup(argv);
+		free(retrn_value->cmd_path);
+		free(retrn_value);
+		exit(2);
+	}
+	return (retrn_value);
 }

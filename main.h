@@ -58,6 +58,7 @@ int change_dirs(char **);
 int go_to_home(char **arg);
 retrn_node *check_executable(char *path_ptr, char *);
 retrn_node *find_executable(char *filename);
+retrn_node *check_slash_path(char **argv);
 int prev_dirs(void);
 char *split_token(char *, char *);
 #endif /* MAIN_H */

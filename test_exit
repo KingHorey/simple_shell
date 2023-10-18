@@ -434,7 +434,8 @@ fi
 ################################################################################
 # CLEANUP AND QUIT
 ################################################################################
-cleanup
+# bat $ENV_TMP_FILE >| "/home/kinghorey/env_test.txt"
+# cleanup
 
 [[ $status -eq 0 ]] && $ECHO -n "OK"
 exit $status1
