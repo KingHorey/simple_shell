@@ -19,9 +19,10 @@ void execute(char **argv, char **env)
 	result = find_executable(argv[0]);
 	if (result == NULL)
 	{
+		fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+			argv[0], argv[1]);
 		cleanup(argv);
-		puts("No such file or directory");
-		return;
+		exit(2);
 	}
 
 	child_pid = fork();
@@ -29,8 +30,8 @@ void execute(char **argv, char **env)
 	{
 		exec_check = execve(result->cmd_path, argv, env);
 		if (exec_check == -1)
-			puts("No such file or directory");
-		_exit(EXIT_FAILURE);
+			exit(2);
+		_exit(EXIT_SUCCESS);
 	}
 
 	cleanup(argv);
