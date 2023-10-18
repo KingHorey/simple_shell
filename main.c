@@ -23,7 +23,8 @@ int main(int argc, char **argv, char **env)
 
 		if (isatty(STDIN_FILENO))
 		{
-			printf("($) "), count = getline(&lineptr, &n, stdin);
+			printf("($) ");
+			count = getline(&lineptr, &n, stdin);
 			if (count == output_check)
 				free(lineptr), free(splits), n = 0, exit(0);
 			else if (count == 1 && lineptr[0] == '\n')

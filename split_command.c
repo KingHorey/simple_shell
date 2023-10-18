@@ -1,13 +1,12 @@
 #include "main.h"
 
 /**
- * split_commands - split the commands into tokens
- *
+ * split_commands - split the commands into tokens to be passed
  * @string: command to be split
- * Return: An array of pointers
+ * Description: splits the commands into tokens
  *
+ * Return: An array of pointers
  */
-
 char **split_commands(char *string)
 {
 	int len;

@@ -29,14 +29,15 @@ typedef struct bin_status
 extern char **environ;
 char **split_commands(char *string);
 char **allocate_and_copy_tokens(char *new_tokens, int len);
-char *get_commands();
-char **check_tty();
+char *get_commands(void);
+char **check_tty(void);
 char *_split_token(char *str, const char *delim);
 void execute(char **argv, char **);
 int env_count(char **envs);
 char **new_env_array(int count);
 
-char **split_path();
+void free_memory(char *lineptr, char **splits, size_t n);
+char **split_path(void);
 int path_check(char *path);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);

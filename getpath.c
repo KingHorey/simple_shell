@@ -1,28 +1,27 @@
 #include "main.h"
 
-
 /**
- * get_path - gets the environ PATH
+ * get_path - gets the environmental path variable
  *
- * Return: Returns the path string
+ * Description: Gets the environ path
+ *
+ * Return: Returns the path
  */
-
-char *get_path() /*expect funct to get input and return path*/
+char *get_path(void)
 {
-	char *location;
+	char *location =  NULL;
 
-	location = getenv("PATH");/*getenv to get path env variable*/
+	location = getenv("PATH");
 	return (location);
 }
 
 /**
  * split_path - splits path string gotten from get_path
- *
  * Return: array of pointers to different paths
  */
 
 
-char **split_path()
+char **split_path(void)
 {
 	char *tokens, **path_array, *token_copy, *path;
 	int count, path_checks, j = 0, i = 0;
