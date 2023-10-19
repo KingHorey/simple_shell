@@ -9,6 +9,7 @@
 */
 int main(int argc, char **argv, char **env)
 {
+	int space = 0;
 	char current_dir[400];
 
 	env = environ;
@@ -19,7 +20,6 @@ int main(int argc, char **argv, char **env)
 		size_t n = 0, output_check = -1, count = 0;
 		(void) argc;
 		(void) argv;
-
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
 		count = getline(&lineptr, &n, stdin);
@@ -29,16 +29,47 @@ int main(int argc, char **argv, char **env)
 			n = 0;
 			exit(0);
 		}
-		else if (count == 1 && lineptr[0] == '\n')
+		else if (count <= 1 || count <= 0)
 		{
 			free(lineptr);
 			n = 0;
 			continue;
 		}
-		splits = split_commands(lineptr);
-		free(lineptr);
-		n = 0;
-		execute(splits, env);
+		else
+		{
+			space = check_space(lineptr);
+			if (space)
+			{
+				splits = split_commands(lineptr);
+				free(lineptr);
+				n = 0;
+				execute(splits, env);
+			}
+			n = 0;
+		}
 	}
+	return (0);
+}
+
+
+/**
+ * check_space - checks if all data are spaces
+ *
+ * @data: string from getline
+ * Return: 1 if all spaces or 0 if not
+ */
+int check_space(char *data)
+{
+	int i = 0;
+
+	while (data[i])
+	{
+		if (data[i] != ' ' && data[i] != '\n')
+		{
+			return (1);
+		}
+		i++;
+	}
+	free(data);
 	return (0);
 }
