@@ -10,7 +10,7 @@
 void execute(char **argv, char **env)
 {
 	pid_t child_pid;
-	int check, check_child = 0, rest = 0;
+	int check, check_child = 0, rest = 0, status;
 	struct stat buf;
 	retrn_node *result = NULL;
 
@@ -36,18 +36,16 @@ void execute(char **argv, char **env)
 		{
 			check_child = execve(result->cmd_path, argv, env);
 			if (check_child == -1)
-				exit(2);
-		clean_resources(argv, result);
-		wait(&child_pid);
+				show_errors(argv);
 		}
+		clean_resources(argv, result);
+		waitpid(child_pid, &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 2)
+			exit(2);
 	}
 	else
-	{
-		cleanup(argv);
-		puts("No such file or directory");
-	}
+		show_errors(argv);
 }
-
 
 
 /**

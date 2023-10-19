@@ -41,5 +41,4 @@ void show_errors(char **argv)
 	fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
 	argv[0], argv[1]);
 	cleanup(argv);
-	exit(2);
 }
