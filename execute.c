@@ -21,7 +21,7 @@ void execute(char **argv, char **env)
 	{
 		result = malloc(sizeof(retrn_node));
 		result->status = stat(argv[0], &buf);
-		result->cmd_path = strdup(argv[0]);
+		result->cmd_path = _strdup(argv[0]);
 	}
 	else
 	{
@@ -109,16 +109,16 @@ retrn_node *executable_check(char *path_ptr, char *argv)
 		perror("malloc");
 		return (NULL);
 	}
-	len_cmd = strlen(argv) + 2;
-	new_pth = malloc((strlen(path_ptr) + len_cmd));
-	strcpy(new_pth, path_ptr);
-	strcat(new_pth, "/");
-	strcat(new_pth, argv);
+	len_cmd = _strlen(argv) + 2;
+	new_pth = malloc((_strlen(path_ptr) + len_cmd));
+	_strcpy(new_pth, path_ptr);
+	_strcat(new_pth, "/");
+	_strcat(new_pth, argv);
 	result = stat(new_pth, &buf);
 	if (result == 0)
 	{
 		retrn_value->status = 1;
-		retrn_value->cmd_path = strdup(new_pth);
+		retrn_value->cmd_path = _strdup(new_pth);
 		free(new_pth);
 		return (retrn_value);
 	}

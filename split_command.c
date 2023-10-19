@@ -18,7 +18,7 @@ char **split_commands(char *string)
 	new_tokens = remove_new_line(string);
 	len = word_count(new_tokens, delim);
 	words_ptr = malloc((len + 1) * sizeof(char *));
-	tokens = strtok(new_tokens, delim);
+	tokens = split_token(new_tokens, delim);
 	while (tokens != NULL)
 	{
 		data = _strlen(tokens) + 1;
@@ -33,8 +33,8 @@ char **split_commands(char *string)
 			}
 			free(words_ptr);
 		}
-		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
-		tokens = strtok(NULL, delim);
+		_strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
+		tokens = split_token(NULL, delim);
 		i++;
 	}
 	words_ptr[i] = NULL;
@@ -55,7 +55,7 @@ char *remove_new_line(char *word)
 	int i = 0;
 	char *word_copy;
 
-	word_copy = strdup(word);
+	word_copy = _strdup(word);
 
 	for (i = 0; i <= _strlen(word_copy); i++)
 	{

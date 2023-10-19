@@ -29,15 +29,19 @@ typedef struct bin_status
 
 extern char **environ;
 char **split_commands(char *string);
+char *_strchr(char *s, char c);
+char *_strdup(char *str);
+int __strcmp(char *s1, char *s2);
 char **allocate_and_copy_tokens(char *new_tokens, int len);
 char *get_commands();
 char **check_tty();
-
+char *_strpbrk(char *s, char *accept);
 void execute(char **argv, char **);
 int env_count(char **envs);
 char **new_env_array(int count);
 
 char **split_path();
+char *_strcat(char *dest, char *src);
 int path_check(char *path);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
@@ -57,7 +61,7 @@ int change_dirs(char **);
 int go_to_home(char **arg);
 retrn_node *executable_check(char *path_ptr, char *);
 int prev_dirs(void);
-
+char *split_token(char *token, char *delim);
 
 retrn_node *path_checker(char **);
 void show_errors(char **argv);

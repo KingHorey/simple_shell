@@ -13,12 +13,12 @@ int change_dirs(char **args)
 	int i = 1, retrn_checker;
 	char current_dir[400];
 
-	if ((!args[i]) || strcmp(args[i], "~") == 0)
+	if ((!args[i]) || __strcmp(args[i], "~") == 0)
 	{
 		retrn_checker = go_to_home(args);
 		return (1);
 	}
-	else if (strcmp(args[i], "-") == 0)
+	else if (__strcmp(args[i], "-") == 0)
 	{
 		retrn_checker = prev_dirs();
 	}
@@ -82,7 +82,7 @@ int prev_dirs(void)
 	oldpwd = getenv("OLDPWD");
 	nxtpwd = getenv("PWD");
 
-	if (strcmp(oldpwd, nxtpwd) == 0)
+	if (__strcmp(oldpwd, nxtpwd) == 0)
 		chdir(nxtpwd);
 	else
 	{

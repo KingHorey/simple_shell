@@ -1,8 +1,8 @@
 #include "main.h"
 
 /**
- * split_token - split a text just like strtok
- * however, this is a custom strtok-like function
+ * split_token - split a text just like split_token
+ * however, this is a custom split_token-like function
  *
  * @token: the text to be split
  * @delim: the delimiter
@@ -30,7 +30,7 @@ char *split_token(char *token, char *delim)
 	if (!new_token)
 		return (NULL);
 
-	while (tok && (new_token = strpbrk(tok, delim)))
+	while (tok && (new_token = _strpbrk(tok, delim)))
 	{
 		int num = (int)(new_token - tok);
 
