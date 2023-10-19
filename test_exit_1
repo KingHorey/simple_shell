@@ -21,7 +21,7 @@
 # as follows: "echo $shell_input | ./hsh"
 #
 # It can be empty and multiline
-shell_input="/bin/ls /varsfe"
+shell_input="/bin/ls /var"
 
 ################################################################################
 # The variable 'shell_params' IS OPTIONNAL

@@ -158,7 +158,7 @@ function cleanup()
 
 function print_diff()
 {
-	input=$
+	input=$1
 	params=$2
 
 	$ECHO -n "(command)["
@@ -434,8 +434,7 @@ fi
 ################################################################################
 # CLEANUP AND QUIT
 ################################################################################
-# bat $ENV_TMP_FILE >| "/home/kinghorey/env_test.txt"
-# cleanup
+cleanup
 
 [[ $status -eq 0 ]] && $ECHO -n "OK"
-exit $status1
+exit $status
