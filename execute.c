@@ -33,11 +33,13 @@ void execute(char **argv, char **env)
 	{
 		child_pid = fork();
 		if (child_pid == 0)
+		{
 			check_child = execve(result->cmd_path, argv, env);
-		if (check_child == -1)
-			show_errors(argv);
+			if (check_child == -1)
+				exit(2);
 		clean_resources(argv, result);
 		wait(&child_pid);
+		}
 	}
 	else
 	{
@@ -126,6 +128,8 @@ retrn_node *executable_check(char *path_ptr, char *argv)
 		retrn_value->cmd_path = NULL;
 		free(new_pth);
 	}
+	if (retrn_value->cmd_path != NULL)
+		puts("failed");
 	return (retrn_value);
 }
 

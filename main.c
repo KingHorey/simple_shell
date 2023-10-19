@@ -22,8 +22,6 @@ int main(int argc, char **argv, char **env)
 
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
-		else
-			printf("\n");
 		count = getline(&lineptr, &n, stdin);
 		if (count == output_check)
 		{
