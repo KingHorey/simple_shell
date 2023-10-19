@@ -17,11 +17,11 @@ int word_count(char *word, char *delim)
 
 	words = strdup(word);
 
-	token = split_token(words, delim);
+	token = strtok(words, delim);
 	while (token != NULL)
 	{
 		count++;
-		token = split_token(NULL, delim);
+		token = strtok(NULL, delim);
 	}
 	free(words);
 	return (count);

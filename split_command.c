@@ -1,33 +1,28 @@
 #include "main.h"
 
 /**
- * split_commands - split the commands into tokens to be passed
- * @string: command to be split
- * Description: splits the commands into tokens
+ * split_commands - splits the commands into tokens
  *
- * Return: An array of pointers
+ * @string: pointer to string to be split
+ *
+ * Return: a pointer to an array of strings
  */
+
 char **split_commands(char *string)
 {
 	int len;
-	char **words_ptr, *words, *tokens, *delim;
-	int i = 0, j = 0;
+	char **words_ptr, *tokens, *delim, *new_tokens;
+	int i = 0, j = 0, data;
 
 	delim = " \t\n";
-	len = word_count(string, delim); /* gets the length of the string */
+	new_tokens = remove_new_line(string);
+	len = word_count(new_tokens, delim);
 	words_ptr = malloc((len + 1) * sizeof(char *));
-	if (!words_ptr)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	words = strdup(string);
-	tokens = split_token(words, delim);
+	tokens = strtok(new_tokens, delim);
 	while (tokens != NULL)
 	{
-		char *new_tokens = remove_new_line(tokens);
-
-		words_ptr[i] = malloc(sizeof(char) * (_strlen(new_tokens) + 1));
+		data = _strlen(tokens) + 1;
+		words_ptr[i] = malloc(data);
 		if (words_ptr[i] == NULL)
 		{
 			perror("malloc");
@@ -38,16 +33,13 @@ char **split_commands(char *string)
 			}
 			free(words_ptr);
 		}
-		if (words_ptr[i])
-		{
-			strcpy(words_ptr[i], new_tokens); /* invalid write size of 1 */
-			tokens = split_token(NULL, delim);
-		}
+		strcpy(words_ptr[i], tokens); /* invalid write size of 1 */
+		tokens = strtok(NULL, delim);
 		i++;
-		free(new_tokens);
 	}
 	words_ptr[i] = NULL;
-	free(words);
+	free(new_tokens);
+	free(tokens);
 	return (words_ptr);
 }
 

@@ -2,12 +2,13 @@
 #define MAIN_H
 
 /**
- * struct bin_status - checks the existence of a file
- * and returns a status
+ * struct bin_status - returns the status of a file
  *
- * @status: returns 1 if file is found r 0 if not
- * @cmd_path: the path for each found command
+ * @status: 1 if file is found
+ * @cmd_path: path of the bin found
+ *
  */
+
 
 typedef struct bin_status
 {
@@ -15,7 +16,7 @@ typedef struct bin_status
 	char *cmd_path;
 } retrn_node;
 
-#define BUF_SIZE 1024
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -29,15 +30,14 @@ typedef struct bin_status
 extern char **environ;
 char **split_commands(char *string);
 char **allocate_and_copy_tokens(char *new_tokens, int len);
-char *get_commands(void);
-char **check_tty(void);
-char *_split_token(char *str, const char *delim);
+char *get_commands();
+char **check_tty();
+
 void execute(char **argv, char **);
 int env_count(char **envs);
 char **new_env_array(int count);
 
-void free_memory(char *lineptr, char **splits, size_t n);
-char **split_path(void);
+char **split_path();
 int path_check(char *path);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
@@ -49,16 +49,17 @@ void cleanup(char **argv);
 void free_words_ptr(char **words_ptr, int count);
 
 void my_env(void);
-void input_loop(char **env);
 
 /** cd builtin */
 void clean_dpointer(char **dpointer);
 void free_splits(char **splits);
 int change_dirs(char **);
 int go_to_home(char **arg);
-retrn_node *check_executable(char *path_ptr, char *);
-retrn_node *find_executable(char *filename);
-retrn_node *check_slash_path(char **argv);
+retrn_node *executable_check(char *path_ptr, char *);
 int prev_dirs(void);
-char *split_token(char *, char *);
+
+
+retrn_node *path_checker(char **);
+void show_errors(char **argv);
+void clean_resources(char **argv, retrn_node *result);
 #endif /* MAIN_H */

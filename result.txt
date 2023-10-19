@@ -1,0 +1,16 @@
+backups
+cache
+crash
+ipp-usb
+lib
+local
+lock
+log
+mail
+metrics
+opt
+run
+snap
+spool
+tmp
+www

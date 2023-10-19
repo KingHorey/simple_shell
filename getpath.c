@@ -1,15 +1,15 @@
 #include "main.h"
 
+
 /**
- * get_path - gets the environmental path variable
+ * get_path - gets the environ PATH
  *
- * Description: Gets the environ path
- *
- * Return: Returns the path
+ * Return: Returns the path string
  */
-char *get_path(void)
+
+char *get_path()
 {
-	char *location =  NULL;
+	char *location;
 
 	location = getenv("PATH");
 	return (location);
@@ -17,11 +17,10 @@ char *get_path(void)
 
 /**
  * split_path - splits path string gotten from get_path
+ *
  * Return: array of pointers to different paths
  */
-
-
-char **split_path(void)
+char **split_path()
 {
 	char *tokens, **path_array, *token_copy, *path;
 	int count, path_checks, j = 0, i = 0;
@@ -35,10 +34,10 @@ char **split_path(void)
 		perror("malloc");
 		return (NULL);
 	}
-	tokens = split_token(token_copy, ":");
+	tokens = strtok(token_copy, ":");
 	while (tokens != NULL)
 	{
-		path_checks = path_check(tokens); /* checks if it a valid path */
+		path_checks = path_check(tokens);
 		if (path_checks)
 		{
 			path_array[i] = malloc((_strlen(tokens) + 1) * sizeof(char));
@@ -56,7 +55,7 @@ char **split_path(void)
 			_strcpy(path_array[i], tokens);
 			i++;
 		}
-		tokens = split_token(NULL, ":");
+		tokens = strtok(NULL, ":");
 	}
 	free(token_copy);
 	path_array[i] = NULL;
@@ -66,7 +65,7 @@ char **split_path(void)
 
 /**
  * path_check - checks the existence of a path using stat
- * @path: path gotten from the use of split_token in split_path
+ * @path: path gotten from the use of strtok in split_path
  * Return: 1 on success, 0 on failure
  */
 
