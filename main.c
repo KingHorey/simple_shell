@@ -16,10 +16,10 @@ int main(int argc, char **argv, char **env)
 	setenv("OLDPWD", getcwd(current_dir, sizeof(current_dir)), 1);
 	for (;;)
 	{
-		char *lineptr = NULL, **splits;
+		char *lineptr = NULL, **splits, **arg;
 		size_t n = 0, output_check = -1, count = 0;
 		(void) argc;
-		(void) argv;
+		arg = argv;
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
 		count = getline(&lineptr, &n, stdin);
@@ -37,13 +37,13 @@ int main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			space = check_space(lineptr);
+			space = check_and_remove_space(lineptr);
 			if (space)
 			{
 				splits = split_commands(lineptr);
 				free(lineptr);
 				n = 0;
-				execute(splits, env);
+				execute(splits, env, arg[0]);
 			}
 			n = 0;
 		}
@@ -53,23 +53,26 @@ int main(int argc, char **argv, char **env)
 
 
 /**
- * check_space - checks if all data are spaces
+ * check_and_remove_space - checks if all data are spaces
  *
  * @data: string from getline
  * Return: 1 if all spaces or 0 if not
  */
-int check_space(char *data)
+
+int check_and_remove_space(char *data)
 {
 	int i = 0;
 
-	while (data[i])
-	{
-		if (data[i] != ' ' && data[i] != '\n')
-		{
-			return (1);
-		}
+	while (data[i] == ' ' || data[i] == '\n')
 		i++;
+
+	if (data[i] == '\0')
+	{
+		return (0);
 	}
-	free(data);
-	return (0);
+	else
+	{
+		memmove(data, data + i, _strlen(data) - i + 1);
+		return (1);
+	}
 }

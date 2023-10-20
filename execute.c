@@ -5,12 +5,13 @@
 *
 * @argv: args to be carried out
 * @env: environmental variable
+* @arg: argument name
 */
 
-void execute(char **argv, char **env)
+void execute(char **argv, char **env, char *arg)
 {
 	pid_t child_pid;
-	int check, check_child = 0, rest = 0, status;
+	int check, check_child = 0, rest = 1, status;
 	struct stat buf;
 	retrn_node *result = NULL;
 
@@ -22,6 +23,7 @@ void execute(char **argv, char **env)
 		result = malloc(sizeof(retrn_node));
 		result->status = stat(argv[0], &buf);
 		result->cmd_path = _strdup(argv[0]);
+		rest = 0;
 	}
 	else
 	{
@@ -44,7 +46,7 @@ void execute(char **argv, char **env)
 			exit(2);
 	}
 	else
-		show_errors(argv);
+		not_found(arg, argv);
 }
 
 

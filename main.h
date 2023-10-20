@@ -36,7 +36,9 @@ char **allocate_and_copy_tokens(char *new_tokens, int len);
 char *get_commands();
 char **check_tty();
 char *_strpbrk(char *s, char *accept);
-void execute(char **argv, char **);
+void execute(char **argv, char **, char *);
+int check_and_remove_space(char *data);
+void not_found(char *arg, char **argv);
 int env_count(char **envs);
 char **new_env_array(int count);
 

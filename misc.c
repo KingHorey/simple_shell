@@ -42,3 +42,17 @@ void show_errors(char **argv)
 	argv[0], argv[1]);
 	cleanup(argv);
 }
+
+/**
+ * not_found - works on printing errors to stderr
+ *
+ * @arg: program name
+ * @argv: args from cmd
+ *
+ */
+void not_found(char *arg, char **argv)
+{
+	fprintf(stderr, "%s: 1: %s: not found\n", arg, argv[0]);
+	cleanup(argv);
+	exit(127);
+}
