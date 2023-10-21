@@ -80,7 +80,8 @@ void cleanup(char **argv)
 
 	while (argv[i])
 	{
-		free(argv[i]);
+		if (argv[i])
+			free(argv[i]);
 		i++;
 	}
 	free(argv);

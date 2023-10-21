@@ -1,0 +1,41 @@
+#include "main.h"
+/**
+ * copy_environment -  copies the environment into a pointer
+ * 
+ * @environ: extern enrion (see main.h)
+ * Return: pointer of arrays to environment
+ */
+
+char **copy_environment(char **env)
+{
+    char **new_env = NULL;
+    int i = 0;
+
+    while (env[i] != NULL)
+    {
+        new_env = realloc(new_env, sizeof(char *) * (i + 2));
+        new_env[i] = _strdup(env[i]);
+        i++;
+    }
+    new_env[i] = NULL;
+
+    return (new_env);
+}
+
+
+/**
+ * free_environment - free environment pointer
+ * 
+ * 
+ */
+void free_environment(char **my_env)
+{
+    int i = 0;
+   while(my_env[i] != NULL)
+   {
+        free(my_env[i]);
+        i++;
+   }
+
+    free(my_env);
+}

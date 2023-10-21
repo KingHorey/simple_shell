@@ -10,10 +10,9 @@
 int main(int argc, char **argv, char **env)
 {
 	int space = 0;
-	char current_dir[400];
 
 	env = environ;
-	setenv("OLDPWD", getcwd(current_dir, sizeof(current_dir)), 1);
+	/* setenv("OLDPWD", getcwd(current_dir, sizeof(current_dir)), 1); */
 	for (;;)
 	{
 		char *lineptr = NULL, **splits, **arg;

@@ -20,6 +20,7 @@ TMP_FILE="$TMP_DIR/hbtn_checker_tmp_$R"
 ENV_TMP_FILE="$TMP_DIR/hbtn_env_$R"
 LTRACE_ALLOWED_FUNCTIONS_FILE="./allowed_functions"
 
+echo "tmp file is $ENV_TMP_FILE"
 ################################################################################
 # MOST USED COMMANDS, IN CASE THE ENVIRONMENT IS MISSING
 ################################################################################
@@ -434,7 +435,9 @@ fi
 ################################################################################
 # CLEANUP AND QUIT
 ################################################################################
-cleanup
+# cleanup
+
+echo $ENV_TMP_FILE > ~/env1.txt
 
 [[ $status -eq 0 ]] && $ECHO -n "OK"
 exit $status

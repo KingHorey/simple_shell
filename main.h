@@ -41,7 +41,8 @@ int check_and_remove_space(char *data);
 void not_found(char *arg, char **argv);
 int env_count(char **envs);
 char **new_env_array(int count);
-
+char **copy_environment(char **environ);
+void free_environment(char **my_env);
 char **split_path();
 char *_strcat(char *dest, char *src);
 int path_check(char *path);
@@ -49,7 +50,7 @@ char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int count_array(char **);
 char *remove_new_line(char *);
-int check_command(char **args, char **);
+int check_command(char **args, char **env);
 int word_count(char *arg, char*);
 void cleanup(char **argv);
 void free_words_ptr(char **words_ptr, int count);
@@ -69,4 +70,6 @@ char *split_token(char *token, char *delim);
 retrn_node *path_checker(char **);
 void show_errors(char **argv);
 void clean_resources(char **argv, retrn_node *result);
+
+void handle_env(char **argv);
 #endif /* MAIN_H */
