@@ -38,6 +38,7 @@ void execute(char **argv, char **env, char *arg)
 		child_pid = fork();
 		if (child_pid == 0)
 		{
+			check_child = execve(result->cmd_path, argv, env);
 			if (check_child == -1)
 				show_errors(argv);
 		}
