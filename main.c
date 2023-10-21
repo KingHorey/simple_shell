@@ -45,6 +45,7 @@ int main(int argc, char **argv, char **env)
 				execute(splits, env, arg[0]);
 			}
 			n = 0;
+			free(lineptr);
 		}
 	}
 	return (0);
