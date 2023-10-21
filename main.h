@@ -57,7 +57,7 @@ void free_words_ptr(char **words_ptr, int count);
 
 void my_env(void);
 int check_space(char *data);
-
+void free_buffer(char *lineptr, size_t n);
 /** cd builtin */
 void clean_dpointer(char **dpointer);
 void free_splits(char **splits);

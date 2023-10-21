@@ -12,7 +12,6 @@ int main(int argc, char **argv, char **env)
 	int space = 0;
 
 	env = environ;
-	/* setenv("OLDPWD", getcwd(current_dir, sizeof(current_dir)), 1); */
 	for (;;)
 	{
 		char *lineptr = NULL, **splits, **arg;
@@ -40,12 +39,11 @@ int main(int argc, char **argv, char **env)
 			if (space)
 			{
 				splits = split_commands(lineptr);
-				free(lineptr);
-				n = 0;
+				free_buffer(lineptr, n);
 				execute(splits, env, arg[0]);
 			}
-			n = 0;
-			free(lineptr);
+			else
+				free_buffer(lineptr, n);
 		}
 	}
 	return (0);
@@ -75,4 +73,19 @@ int check_and_remove_space(char *data)
 		memmove(data, data + i, _strlen(data) - i + 1);
 		return (1);
 	}
+}
+
+
+/**
+ * free_buffer - frees the buffer used by getline
+ *
+ * @lineptr: buffer to store strings
+ * @n: the number of char read
+ *
+ */
+void free_buffer(char *lineptr, size_t n)
+{
+	free(lineptr);
+	if (n)
+		n = 0;
 }
