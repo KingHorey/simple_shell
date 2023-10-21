@@ -19,6 +19,7 @@ int check_command(char **args, char **env)
 				printf("%s\n", env[i]);
 			i++;
 		}
+		cleanup(args);
 		return (1);
 	}
 	else if (__strcmp(args[0], "exit") == 0)
