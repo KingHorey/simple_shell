@@ -12,7 +12,9 @@ char *get_path()
 	char *location;
 
 	location = getenv("PATH");
-	return (location);
+	if (location)
+		return (location);
+	return (NULL);
 }
 
 /**
@@ -26,6 +28,8 @@ char **split_path()
 	int count, path_checks, j = 0, i = 0;
 
 	path = get_path();
+	if (!path)
+		return (NULL);
 	count = word_count(path, ":");
 	token_copy = strdup(path);
 	path_array = (char **)malloc((count + 1) * sizeof(char *));

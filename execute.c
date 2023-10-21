@@ -30,13 +30,14 @@ void execute(char **argv, char **env, char *arg)
 		result = path_checker(argv);
 		if (result)
 			rest = 0;
+		else
+			not_found(arg, argv);
 	}
 	if (rest == 0)
 	{
 		child_pid = fork();
 		if (child_pid == 0)
 		{
-			check_child = execve(result->cmd_path, argv, env);
 			if (check_child == -1)
 				show_errors(argv);
 		}

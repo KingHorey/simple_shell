@@ -15,6 +15,8 @@ retrn_node *path_checker(char **argv)
 	int i = 0;
 
 	path_ptr = split_path();
+	if (!path_ptr)
+		return (NULL);
 	while (path_ptr[i])
 	{
 		result = executable_check(path_ptr[i], argv[0]);
